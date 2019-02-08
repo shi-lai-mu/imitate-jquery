@@ -156,6 +156,17 @@
       self[0] = arr[0]
       return self
     },
+
+    /**
+     * 选择最后一个
+     */
+    last () {
+      let self = this,
+          arr = self.moveAll();
+
+      self[0] = arr[arr.length - 1]
+      return self
+    },
     
     /**
      * 转移全部元素
