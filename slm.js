@@ -150,6 +150,17 @@
           })
         })
       }
+      return self;
+    },
+
+    /**
+     * 清空内容
+     */
+    empty () {
+      this.each(this, data => {
+        data.innerText = ''
+      });
+      return this;
     },
 
 
