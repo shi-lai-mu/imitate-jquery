@@ -78,12 +78,7 @@
 
     // 初始化
     init: function (element) {
-      
-    },
-
-    // 工具类
-    type: function () {
-
+      console.log(this.type(element))
     },
 
     // 事件类
@@ -94,6 +89,19 @@
     // CSS类
     css: function() {
       
+    },
+
+    //------------ 工具类 ------------\\
+    /**
+     * 判断参数类型
+     * @param {*} value 任意类型的参数
+     * @returns {string} 小写数据类型
+     */
+    type: function (value) {
+      let toString = Object.prototype.toString,
+        type = toString.call(value).match(/\w+/g)[1]
+
+      return type.toLowerCase()
     }
   }
 
