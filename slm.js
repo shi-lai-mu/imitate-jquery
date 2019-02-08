@@ -30,7 +30,11 @@
  *      标签选择器  : $("div")
  *      标签创建器  : $("<div>sss<span>max</span></div><span></span>")  创建标签并加入document子节点内 (需配合 _$(Element).copyElement(parent))
  * 
- *      $(Element).addList(Element)     // 在操作列表内添加被操作元素
+ *      
+ *  -工具类：
+ *      $.type(value)             // 返回数据类型
+ *      $.each(obj, cb, self)     // 遍历对象
+ *      $.select(string/element)  // 选择器
  * 
  *  -文本操作：
  *      $(Element).html(html)           // 有实参则赋值所有元素的innerHTML | 没有实参返回所有元素的innerHTML"[不可链式]"
@@ -78,31 +82,52 @@
 
     // 初始化
     init: function (element) {
-
-      this.each(this.select(element), (data, i) => {
-        this[i] = data
+      let self = this
+      // 选择元素
+      self.each(self.select(element), (data, i) => {
+        self[i] = data
       })
-
-      return this
+      return self
     },
 
-    // 事件类
-    on: function () {
+    //------------ 属性类 ------------\\
+    /**
+     * 设置元素的值
+     * @param {string} index 属性
+     * @param {string} value 值
+     */
+    val (index = 0, value) {
+      let self = this
+      if (!value) {
+        self.each(self, el => {
+          el.value = index
+        })
+      } else {
+        if (self[index]) {
+          self[index].value = value
+        } else throw Error(`下标[${index}]元素不存在!`);
+      }
+      return self
+    },
+
+    //------------ 事件类 ------------\\
+    on () {
 
     },
 
-    // CSS类
-    css: function() {
+    //------------ CSS类 ------------\\
+    css () {
       
     },
 
     //------------ 工具类 ------------\\
+
     /**
      * 判断参数类型
      * @param {*} value 任意类型的参数
      * @returns {string} 小写数据类型
      */
-    type: function (value) {
+    type (value) {
       let toString = Object.prototype.toString,
         type = toString.call(value).match(/\w+/g)[1]
 
@@ -161,7 +186,7 @@
      * @param {function} cb 回调
      * @param {object} self 指向
      */
-    each(obj, cb, self) {
+    each (obj, cb, self) {
       const arr = Object.keys(obj)
       for (let index = 0, len = arr.length; index < len; index++) {
         cb.call(self || obj[index], obj[index], index, obj);
