@@ -36,11 +36,19 @@
  *      $.each(obj, cb, self)     // 遍历对象
  *      $.select(string/element)  // 选择器
  * 
+ *  -工具类：
+ *      $.append(index[, value])  // 向匹配的元素内添加内容
+ * 
  *  -属性类：
  *      $.val(index[, value])     // 设置value值
  * 
  *  -选择类：
- *      $.eq(index)               // 正数/负数 选择
+ *      $.eq(index)               // 正数/负数 选择其中一个
+ *      $.first()                 // 选中第一个
+ *      $.last()                  // 选中最后一个
+ * 
+ * 
+ * 
  * 
  *  -文本操作：
  *      $(Element).html(html)           // 有实参则赋值所有元素的innerHTML | 没有实参返回所有元素的innerHTML"[不可链式]"
@@ -88,12 +96,12 @@
 
     // 初始化
     init: function (element) {
-      let self = this
+      let self = this;
       // 选择元素
       self.each(self.select(element), (data, i) => {
-        self[i] = data
+        self[i] = data;
       })
-      return self
+      return self;
     },
 
 
@@ -106,24 +114,42 @@
      * @param {string} value 值
      */
     val (index = 0, value) {
-      let self = this
+      let self = this;
       if (!value) {
         self.each(self, el => {
-          el.value = index
+          el.value = index;
         })
       } else {
         if (self[index]) {
-          self[index].value = value
+          self[index].value = value;
         } else throw Error(`下标[${index}]元素不存在!`);
       }
-      return self
+      return self;
     },
 
     
 
     //------------ 文档类 ------------\\
+    /**
+     * 
+     * @param {number} index 下标
+     * @param {string/el} el 元素选择器
+     */
     append (index, el) {
+      let self = this,
+          node = self.select(el || index);
 
+      if (el) {
+        self.each(node, data => {
+          self[index - 1].append(data);
+        })
+      } else {
+        self.each(self, data => {
+          self.each(node, nodeData => {
+            data.appendChild(nodeData.cloneNode(true));
+          })
+        })
+      }
     },
 
 
@@ -139,11 +165,11 @@
 
       // 被选元素装入 负数/正数
       if (index > 0) {
-        self[0] = arr[index]
+        self[0] = arr[index];
       } else {
-        self[0] = arr[arr.length - -index]
+        self[0] = arr[arr.length - -index];
       }
-      return slef
+      return slef;
     },
 
     /**
@@ -153,8 +179,8 @@
       let self = this,
           arr = self.moveAll();
 
-      self[0] = arr[0]
-      return self
+      self[0] = arr[0];
+      return self;
     },
 
     /**
@@ -164,8 +190,8 @@
       let self = this,
           arr = self.moveAll();
 
-      self[0] = arr[arr.length - 1]
-      return self
+      self[0] = arr[arr.length - 1];
+      return self;
     },
     
     /**
@@ -177,14 +203,14 @@
 
       // 删除之外的元素
       self.each(self, (data, i) => {
-        arr.push(data)
-        delete self[i]
+        arr.push(data);
+        delete self[i];
       })
-      self.prevObject = arr
+      self.prevObject = arr;
       Object.defineProperty(self, 'prevObject', {
         enumerable: false
       })
-      return arr
+      return arr;
     },
 
 
@@ -211,9 +237,9 @@
      */
     type (value) {
       let toString = Object.prototype.toString,
-        type = toString.call(value).match(/\w+/g)[1]
+          type = toString.call(value).match(/\w+/g)[1];
 
-      return type.toLowerCase()
+      return type.toLowerCase();
     },
 
 
@@ -223,7 +249,7 @@
      * @returns {array} 节点数组
      */
     select (element) {
-      let elementNode = []
+      let elementNode = [];
       if (this.type(element) === 'string') {
         let select = element.trim();
         
@@ -231,30 +257,30 @@
         if (/^\.\w+$/.test(select)) {
 
           // class
-          elementNode = doc.getElementsByClassName(select.slice(1, select.length))
+          elementNode = doc.getElementsByClassName(select.slice(1, select.length));
         } else if (/^\#\w+$/.test(select)) {
           
           // ID
-          elementNode = doc.getElementById(select.slice(1, select.length))
+          elementNode = doc.getElementById(select.slice(1, select.length));
         } else if (/^\w+$/.test(select)) {
 
           // tag
-          elementNode = doc.getElementsByTagName(select)
+          elementNode = doc.getElementsByTagName(select);
         } else if (/^\</.test(select)) {
 
           // html
-          let el = doc.createElement('div')
-          el.innerHTML = select
-          elementNode = el.children
+          let el = doc.createElement('div');
+          el.innerHTML = select;
+          elementNode = el.children;
         } else {
 
           // css3
-          elementNode = doc.querySelectorAll(select)
+          elementNode = doc.querySelectorAll(select);
         }
 
       } else if (element instanceof HTMLElement) {
         // 元素节点
-        elementNode = [element]
+        elementNode = [element];
       } else {
         throw Error('选择器参数只能是 节点或字符串');
       }
@@ -269,7 +295,7 @@
      * @param {object} self 指向
      */
     each (obj, cb, self) {
-      const arr = Object.keys(obj)
+      const arr = Object.keys(obj);
       for (let index = 0, len = arr.length; index < len; index++) {
         const ret = cb.call(self || obj[index], obj[index], index, obj);
         if (ret === false) break;
@@ -279,6 +305,6 @@
 
   }
 
-  JQuery.prototype.init.prototype = JQuery.prototype
-  window.$ = JQuery
+  JQuery.prototype.init.prototype = JQuery.prototype;
+  window.$ = JQuery;
 })(document);
