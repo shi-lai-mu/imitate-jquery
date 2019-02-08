@@ -135,7 +135,34 @@
      */
     eq (index) {
       let self = this,
-          arr = []
+          arr = self.moveAll();
+
+      // 被选元素装入 负数/正数
+      if (index > 0) {
+        self[0] = arr[index]
+      } else {
+        self[0] = arr[arr.length - -index]
+      }
+      return slef
+    },
+
+    /**
+     * 选择第一个
+     */
+    first () {
+      let self = this,
+          arr = self.moveAll();
+
+      self[0] = arr[0]
+      return self
+    },
+    
+    /**
+     * 转移全部元素
+     */
+    moveAll () {
+      let self = this,
+          arr = [];
 
       // 删除之外的元素
       self.each(self, (data, i) => {
@@ -146,14 +173,7 @@
       Object.defineProperty(self, 'prevObject', {
         enumerable: false
       })
-
-      // 被选元素装入 负数/正数
-      if (index > 0) {
-        self[0] = arr[index]
-      } else {
-        self[0] = arr[arr.length - -index]
-      }
-      return slef
+      return arr
     },
 
 
