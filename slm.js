@@ -78,7 +78,12 @@
 
     // 初始化
     init: function (element) {
-      console.log(this.type(element))
+
+      this.each(this.select(element), (data, i) => {
+        this[i] = data
+      })
+
+      return this
     },
 
     // 事件类
@@ -102,7 +107,68 @@
         type = toString.call(value).match(/\w+/g)[1]
 
       return type.toLowerCase()
+    },
+
+
+    /**
+     * 元素选择器
+     * @param {string/object} el 选择器或元素节点
+     * @returns {array} 节点数组
+     */
+    select (element) {
+      let elementNode = []
+      if (this.type(element) === 'string') {
+        let select = element.trim();
+        
+        // 选择器 获取元素
+        if (/^\.\w+$/.test(select)) {
+
+          // class
+          elementNode = doc.getElementsByClassName(select.slice(1, select.length))
+        } else if (/^\#\w+$/.test(select)) {
+          
+          // ID
+          elementNode = doc.getElementById(select.slice(1, select.length))
+        } else if (/^\w+$/.test(select)) {
+
+          // tag
+          elementNode = doc.getElementsByTagName(select)
+        } else if (/^\</.test(select)) {
+
+          // html
+          let el = doc.createElement('div')
+          el.innerHTML = select
+          elementNode = el.children
+        } else {
+
+          // css3
+          elementNode = doc.querySelectorAll(select)
+        }
+
+      } else if (element instanceof HTMLElement) {
+        // 元素节点
+        elementNode = [element]
+      } else {
+        throw Error('选择器参数只能是 节点或字符串');
+      }
+      return elementNode;
+    },
+
+    
+    /**
+     * 遍历数组或对象
+     * @param {*} obj 遍历的数据
+     * @param {function} cb 回调
+     * @param {object} self 指向
+     */
+    each(obj, cb, self) {
+      const arr = Object.keys(obj)
+      for (let index = 0, len = arr.length; index < len; index++) {
+        cb.call(self || obj[index], obj[index], index, obj);
+      }
     }
+
+
   }
 
   JQuery.prototype.init.prototype = JQuery.prototype
