@@ -41,6 +41,7 @@
  * 
  *  -属性类：
  *      $.val(index[, value])     // 设置value值
+ *      $.css(pro, value)         // 设置css属性
  * 
  *  -选择类：
  *      $.eq(index)               // 正数/负数 选择其中一个
@@ -246,6 +247,12 @@
 
 
     //------------ CSS类 ------------\\
+
+    /**
+     * 设置选中对象的样式
+     * @param {object} pro 对象或者属性名
+     * @param {string} value 值
+     */
     css (pro, value) {
       let self = this;
 
@@ -266,6 +273,17 @@
         })
       }
       return self;
+    },
+
+    /**
+     * 设置垂直滚动条值
+     * @param {number} val 垂直滚动条值
+     */
+    scrollTop (val) {
+      this.each(this, data => {
+        data.scrollTop(val)
+      });
+      return this;
     },
 
 
