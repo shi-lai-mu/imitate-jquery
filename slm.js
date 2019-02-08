@@ -233,8 +233,21 @@
 
 
     //------------ CSS类 ------------\\
-    css () {
-      
+    css (pro, value) {
+      let self = this;
+
+      if (value) {
+        self.each(self, data => {
+          data.style[pro] = value;
+        })
+      } else {
+        self.each(self, data => {
+          self.each(pro, (val, key) => {
+            data.style[key] = val;
+          })
+        })
+      }
+      return self;
     },
 
 
@@ -308,7 +321,8 @@
     each (obj, cb, self) {
       const arr = Object.keys(obj);
       for (let index = 0, len = arr.length; index < len; index++) {
-        const ret = cb.call(self || obj[index], obj[index], index, obj);
+        const key = arr[index]
+        const ret = cb.call(self || obj[key], obj[key], key, obj);
         if (ret === false) break;
       }
     }
