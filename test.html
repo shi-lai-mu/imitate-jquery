@@ -17,14 +17,26 @@
     <![endif]-->
     <div id="bate" class="bate">asdsadsadasd</div>
     <div id="bate2" class="bate2">adsaxzcwzvasdASDFAS</div>
-    <div id="bate3" class="bate3">sadasdasds</div>
+    <div id="bate3" style="background: red; width: 300px;" class="bate3">sadasdasds</div>
 
     
     <script src="slm.js"></script>
     <!-- <script src="jquery-3.3.1.min.js"></script> -->
     <script>
       // console.log($)
-      console.log($('div').append(1, '<b>Hello</b>').css({'background': 'red'}))
+      document.body.onclick = function () {
+        $('div')
+        .append(1, '<b>Hello</b>')
+        .css({
+          'background': 'blue',
+          'width': function (key, index) {
+            return index += 3 + 'px'
+          },
+          'height': function (key, index) {
+            return index += 3 + 'px'
+          }
+        })
+      }
     </script>
   </body>
 </html>

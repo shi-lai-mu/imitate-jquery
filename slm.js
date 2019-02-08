@@ -86,6 +86,19 @@
  */
 ;(function(doc) {
 
+  // 观察者
+  const observer = {
+    task: [],
+    $on (key, cb) {
+    },
+    $emit () {
+
+    },
+    $remove () {
+
+    }
+  }
+
   // 基于构造函数模式
   function JQuery (element) {
     return new JQuery.prototype.init(element)
@@ -158,7 +171,7 @@
      */
     empty () {
       this.each(this, data => {
-        data.innerText = ''
+        data.innerText = '';
       });
       return this;
     },
@@ -243,7 +256,12 @@
       } else {
         self.each(self, data => {
           self.each(pro, (val, key) => {
-            data.style[key] = val;
+            // 如果为自执行
+            if (self.type(val) === 'string') {
+              data.style[key] = val;
+            } else {
+              data.style[key] = val(key, parseFloat(data.style[key].replace(/[^\d+]/g, '')) || 0);
+            }
           })
         })
       }
