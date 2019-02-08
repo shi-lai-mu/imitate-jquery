@@ -36,6 +36,12 @@
  *      $.each(obj, cb, self)     // 遍历对象
  *      $.select(string/element)  // 选择器
  * 
+ *  -属性类：
+ *      $.val(index[, value])     // 设置value值
+ * 
+ *  -选择类：
+ *      $.eq(index)               // 正数/负数 选择
+ * 
  *  -文本操作：
  *      $(Element).html(html)           // 有实参则赋值所有元素的innerHTML | 没有实参返回所有元素的innerHTML"[不可链式]"
  *      $(Element).text(text)           // 有实参则赋值所有元素的innerText | 没有实参返回所有元素的innerText"[不可链式]"
@@ -90,7 +96,10 @@
       return self
     },
 
+
+
     //------------ 属性类 ------------\\
+
     /**
      * 设置元素的值
      * @param {string} index 属性
@@ -110,15 +119,57 @@
       return self
     },
 
+    
+
+    //------------ 文档类 ------------\\
+    append (index, el) {
+
+    },
+
+
+
+    //------------ 筛选类 ------------\\
+    /**
+     * 选择元素
+     * @param {number} index 元素下标
+     */
+    eq (index) {
+      let self = this,
+          arr = []
+
+      // 删除之外的元素
+      self.each(self, (data, i) => {
+        arr.push(data)
+        delete self[i]
+      })
+      self.prevObject = arr
+      Object.defineProperty(self, 'prevObject', {
+        enumerable: false
+      })
+
+      // 被选元素装入 负数/正数
+      if (index > 0) {
+        self[0] = arr[index]
+      } else {
+        self[0] = arr[arr.length - -index]
+      }
+      return slef
+    },
+
+
     //------------ 事件类 ------------\\
     on () {
 
     },
 
+
+
     //------------ CSS类 ------------\\
     css () {
       
     },
+
+
 
     //------------ 工具类 ------------\\
 
@@ -189,7 +240,8 @@
     each (obj, cb, self) {
       const arr = Object.keys(obj)
       for (let index = 0, len = arr.length; index < len; index++) {
-        cb.call(self || obj[index], obj[index], index, obj);
+        const ret = cb.call(self || obj[index], obj[index], index, obj);
+        if (ret === false) break;
       }
     }
 
