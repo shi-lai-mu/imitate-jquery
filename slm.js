@@ -176,6 +176,18 @@
       return self;
     },
 
+    /**
+     * 从每一个匹配的元素中删除一个属性
+     * @param {string} name 要删除的属性名
+     */
+    removeAttr (name) {
+      let self = this;
+      self.each(self, data => {
+        data.removeAttribute(name);
+      });
+      return self;
+    },
+
     
 
     //------------ 文档类 ------------\\
