@@ -404,6 +404,20 @@
      */
     length () {
       return this.each(this);
+    },
+
+    /**
+     * @returns {string} 选择器字符串
+     */
+    selector () {
+      return this.selectString;
+    },
+
+    /**
+     * @returns {string} 当前的文档(document)字符串
+     */
+    context () {
+      return this.select(this.selectString).toString();
     }
 
 
