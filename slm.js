@@ -438,22 +438,22 @@
      */
     index (select) {
       let self = this,
-          el = select;
+          el = select,
+          index = -1;
 
       // 匹配选择器
       if (self.type(select) === 'string') {
         el = self.select(select)[0];
       }
 
-      console.log('==================================')
-      self.each(self, data => {
-        console.log(data === el,el,data)
+      self.each(self, (data, i) => {
         if (data === el) {
-
+          index = i;
+          return false;
         }
       })
 
-      return 0;
+      return index;
     }
 
 
