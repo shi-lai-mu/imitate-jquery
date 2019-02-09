@@ -24,9 +24,15 @@
     <!-- <script src="jquery-3.3.1.min.js"></script> -->
     <script>
       // console.log($)
+      
       document.body.onclick = function () {
         $('div')
-        .append(1, '<b>Hello</b>')
+          .append(1, '<b>Hello</b>')
+          .attr({
+            'auther': 'slm',
+            'version': '1.0.0',
+            'time': () => new Date()
+          })
       }
     </script>
   </body>

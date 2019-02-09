@@ -141,6 +141,27 @@
       return self;
     },
 
+    attr (pro, val) {
+      let self = this;
+      if (val) {
+        self.each(self, data => {
+          data.setAttribute(pro, val);
+        });
+      } else {
+        self.each(self, data => {
+          self.each(pro, (item, index) => {
+            // 字符判断
+            if (self.type(item) === 'string') {
+              data.setAttribute(index, item);
+            } else {
+              data.setAttribute(index, item(data.getAttribute(index)));
+            }
+          });
+        });
+      }
+      return self;
+    },
+
     
 
     //------------ 文档类 ------------\\
