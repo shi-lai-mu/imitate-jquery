@@ -114,7 +114,7 @@
       // 选择元素
       self.each(self.select(element), (data, i) => {
         self[i] = data;
-      })
+      });
       return self;
     },
 
@@ -132,7 +132,7 @@
       if (!value) {
         self.each(self, el => {
           el.value = index;
-        })
+        });
       } else {
         if (self[index]) {
           self[index].value = value;
@@ -156,13 +156,13 @@
       if (el) {
         self.each(node, data => {
           self[index - 1].append(data);
-        })
+        });
       } else {
         self.each(self, data => {
           self.each(node, nodeData => {
             data.appendChild(nodeData.cloneNode(true));
-          })
-        })
+          });
+        });
       }
       return self;
     },
@@ -230,11 +230,11 @@
       self.each(self, (data, i) => {
         arr.push(data);
         delete self[i];
-      })
+      });
       self.prevObject = arr;
       Object.defineProperty(self, 'prevObject', {
         enumerable: false
-      })
+      });
       return arr;
     },
 
@@ -259,7 +259,7 @@
       if (value) {
         self.each(self, data => {
           data.style[pro] = value;
-        })
+        });
       } else {
         self.each(self, data => {
           self.each(pro, (val, key) => {
@@ -269,8 +269,8 @@
             } else {
               data.style[key] = val(key, parseFloat(data.style[key].replace(/[^\d+]/g, '')) || 0);
             }
-          })
-        })
+          });
+        });
       }
       return self;
     },
@@ -281,7 +281,7 @@
      */
     scrollTop (val) {
       this.each(this, data => {
-        data.scrollTop(val)
+        data.scrollTo(0, val);
       });
       return this;
     },
@@ -357,8 +357,8 @@
     each (obj, cb, self) {
       const arr = Object.keys(obj);
       for (let index = 0, len = arr.length; index < len; index++) {
-        const key = arr[index]
-        const ret = cb.call(self || obj[key], obj[key], key, obj);
+        const key = arr[index],
+              ret = cb.call(self || obj[key], obj[key], key, obj);
         if (ret === false) break;
       }
     }

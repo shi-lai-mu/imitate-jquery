@@ -27,15 +27,6 @@
       document.body.onclick = function () {
         $('div')
         .append(1, '<b>Hello</b>')
-        .css({
-          'background': 'blue',
-          'width': function (key, index) {
-            return index += 3 + 'px'
-          },
-          'height': function (key, index) {
-            return index += 3 + 'px'
-          }
-        })
       }
     </script>
   </body>
