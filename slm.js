@@ -384,11 +384,19 @@
      */
     each (obj, cb, self) {
       const arr = Object.keys(obj);
+      if (!cb) return arr.length;
       for (let index = 0, len = arr.length; index < len; index++) {
         const key = arr[index],
               ret = cb.call(self || obj[key], obj[key], key, obj);
         if (ret === false) break;
       }
+    },
+
+    /**
+     * @returns {number} 元素数量
+     */
+    length () {
+      return this.each(this);
     }
 
 
