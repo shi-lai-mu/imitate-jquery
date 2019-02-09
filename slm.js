@@ -35,6 +35,8 @@
     }
   }
 
+  let symbol = Symbol();
+
   // 基于构造函数模式
   function JQuery (element) {
     return new JQuery.prototype.init(element)
@@ -44,7 +46,7 @@
     constructor: JQuery,
 
     // 选择器内容
-    selectString: '',
+    [symbol]: '',
 
     // 初始化
     init: function (element) {
@@ -344,7 +346,7 @@
     select (element) {
       let elementNode = [];
       if (this.type(element) === 'string') {
-        this.selectString = element;
+        this[symbol] = element;
         let select = element.trim();
         
         // 选择器 获取元素
@@ -374,7 +376,7 @@
 
       } else if (element instanceof HTMLElement) {
         // 元素节点
-        this.selectString = 'Element Node';
+        this[symbol] = 'Element Node';
         elementNode = [element];
       } else {
         throw Error('选择器参数只能是 节点或字符串');
@@ -410,7 +412,7 @@
      * @returns {string} 选择器字符串
      */
     selector () {
-      return this.selectString;
+      return this[symbol];
     },
 
     /**
@@ -427,7 +429,33 @@
      */
     get (index) {
       return this[index - 1];
+    },
+
+    /**
+     * 判断是否存在选中元素内,返回下标
+     * @param {string/elemnt} select 选择器/元素
+     * @returns {number} 返回下标
+     */
+    index (select) {
+      let self = this,
+          el = select;
+
+      // 匹配选择器
+      if (self.type(select) === 'string') {
+        el = self.select(select)[0];
+      }
+
+      console.log('==================================')
+      self.each(self, data => {
+        console.log(data === el,el,data)
+        if (data === el) {
+
+        }
+      })
+
+      return 0;
     }
+
 
 
   }
