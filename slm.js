@@ -43,6 +43,9 @@
   JQuery.prototype = {
     constructor: JQuery,
 
+    // 选择器内容
+    selectString: '',
+
     // 初始化
     init: function (element) {
       let self = this;
@@ -100,10 +103,12 @@
         self.each(self, data => {
           self.each(pro, (item, index) => {
             // 字符判断
-            if (self.type(item) === 'string') {
-              data.setAttribute(index, item);
-            } else {
-              data.setAttribute(index, item(data.getAttribute(index)));
+            if (data.setAttribute) {
+              if (self.type(item) === 'string') {
+                data.setAttribute(index, item);
+              } else {
+                data.setAttribute(index, item(data.getAttribute(index)));
+              }
             }
           });
         });
@@ -118,7 +123,7 @@
     removeAttr (name) {
       let self = this;
       self.each(self, data => {
-        data.removeAttribute(name);
+        data.removeAttribute && data.removeAttribute(name);
       });
       return self;
     },
@@ -339,6 +344,7 @@
     select (element) {
       let elementNode = [];
       if (this.type(element) === 'string') {
+        this.selectString = element;
         let select = element.trim();
         
         // 选择器 获取元素
@@ -368,6 +374,7 @@
 
       } else if (element instanceof HTMLElement) {
         // 元素节点
+        this.selectString = 'Element Node';
         elementNode = [element];
       } else {
         throw Error('选择器参数只能是 节点或字符串');
