@@ -281,7 +281,18 @@
      */
     scrollTop (val) {
       this.each(this, data => {
-        data.scrollTo(0, val);
+        data.scrollTop = val;
+      });
+      return this;
+    },
+
+    /**
+     * 设置水平滚动条值
+     * @param {number} val 水平滚动条值
+     */
+    scrollLeft (val) {
+      this.each(this, data => {
+        data.scrollLeft = val;
       });
       return this;
     },
