@@ -141,13 +141,27 @@
       return self;
     },
 
+    /**
+     * 设置或返回被选元素的属性值
+     * @param {object/string} pro 对象/属性/包含函数的对象
+     * @param {*} val 值/函数
+     */
     attr (pro, val) {
       let self = this;
       if (val) {
         self.each(self, data => {
-          data.setAttribute(pro, val);
+          if (self.type(item) === 'string') {
+            data.setAttribute(pro, val);
+          } else {
+            data.setAttribute(pro, val(data.getAttribute(pro)));
+          }
         });
       } else {
+        // 返回属性值
+        if (self.type(pro) === 'string') {
+          return self[0].getAttribute(pro);
+        }
+        // 对象赋值
         self.each(self, data => {
           self.each(pro, (item, index) => {
             // 字符判断
