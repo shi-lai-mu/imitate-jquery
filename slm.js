@@ -418,6 +418,15 @@
      */
     context () {
       return this.select(this.selectString).toString();
+    },
+
+    /**
+     * 选中的节点
+     * @param {number} index 选定的下标
+     * @returns {element} 返回选中的元素节点
+     */
+    get (index) {
+      return this[index - 1];
     }
 
 
