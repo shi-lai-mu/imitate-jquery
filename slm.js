@@ -188,11 +188,28 @@
       return self;
     },
 
+    /**
+     * 设定HTML内容
+     * @param {number} index 元素下标
+     * @param {string} html 用于设定HTML内容的值
+     */
+    html (index, html) {
+      let self = this;
+
+      if (!html) {
+        self.each(self, data => {
+          data.innerHTML = index;
+        });
+      } else {
+        self[index - 1].innerHTML = html;
+      }
+      return self;
+    },
     
 
     //------------ 文档类 ------------\\
     /**
-     * 
+     * 追加到元素末尾
      * @param {number} index 下标
      * @param {string/el} el 元素选择器
      */
