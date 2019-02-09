@@ -205,6 +205,24 @@
       }
       return self;
     },
+
+    /**
+     * 设定文本内容
+     * @param {number} index 元素下标
+     * @param {string} html 用于设定文本内容的值
+     */
+    text (index, html) {
+      let self = this;
+
+      if (!html) {
+        self.each(self, data => {
+          data.innerText = index;
+        });
+      } else {
+        self[index - 1].innerText = html;
+      }
+      return self;
+    },
     
 
     //------------ 文档类 ------------\\
