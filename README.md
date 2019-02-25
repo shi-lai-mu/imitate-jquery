@@ -16,7 +16,7 @@
 + text
 + val
 
-## 属性功能
+## CSS功能
 + css [参数可写执行函数的对象]
 + scrollTop
 + scrollLeft
